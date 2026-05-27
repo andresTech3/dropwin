@@ -11,6 +11,7 @@ import './Sidebar.css';
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/products', icon: Package, label: 'Productos' },
+  { to: '/trends', icon: Sparkles, label: 'Cazador Tendencias' },
   { to: '/ai-chat', icon: Bot, label: 'IA Asistente' },
   { to: '/admin', icon: Settings, label: 'Admin' },
 ];

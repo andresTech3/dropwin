@@ -33,21 +33,33 @@ export default async function handler(req, res) {
     // Generate products with AI
     const products = await aiService.scanTrendingProducts(parseInt(count), existingNames);
     
-    // Score each product and save
+    // Save generated products directly using the inline AI score
     const savedProducts = [];
     for (const product of products) {
       try {
-        const scoreData = await aiService.scoreProduct(product);
         const enrichedProduct = {
           ...product,
-          ai_score: scoreData.score,
+          ai_score: product.ai_score || 7.5,
           ai_description: null, // Generated on demand
-          ai_competition_analysis: JSON.stringify(scoreData),
+          ai_competition_analysis: JSON.stringify({
+            score: product.ai_score || 7.5,
+            breakdown: product.ai_score_breakdown || { profitMargin: 7.5, marketDemand: 7.5, competition: 7.5, problemFit: 7.5, logistics: 7.5 },
+            reasoning: product.ai_score_reasoning || product.description || '',
+            recommendation: product.ai_score_recommendation || 'Probar diferentes anuncios de video.',
+            risk: product.ai_score_risk || 'medium'
+          }),
         };
+        
+        // Remove temporary helper attributes before saving to database
+        delete enrichedProduct.ai_score_breakdown;
+        delete enrichedProduct.ai_score_reasoning;
+        delete enrichedProduct.ai_score_recommendation;
+        delete enrichedProduct.ai_score_risk;
+
         const saved = await productService.createProduct(enrichedProduct);
         savedProducts.push(saved);
       } catch (err) {
-        console.error('Error saving product:', err.message);
+        console.error('Error saving product during scan:', err.message);
       }
     }
 

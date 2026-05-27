@@ -206,7 +206,18 @@ Return a JSON array with EXACTLY this structure for each product:
     "trend_growth_percent": 145,
     "platforms": ["tiktok", "shopify", "amazon"],
     "supplier_name": "AliExpress",
-    "is_featured": false
+    "is_featured": false,
+    "ai_score": 9.2,
+    "ai_score_breakdown": {
+      "profitMargin": 9.0,
+      "marketDemand": 9.5,
+      "competition": 8.5,
+      "problemFit": 9.5,
+      "logistics": 9.0
+    },
+    "ai_score_reasoning": "This product has high demand due to remote work trends and offers an excellent profit margin.",
+    "ai_score_recommendation": "Bundle it with a mini tripod to increase average order value.",
+    "ai_score_risk": "low"
   }
 ]
 

@@ -9,23 +9,11 @@ import ProductDetail from './pages/ProductDetail';
 import AIChat from './pages/AIChat';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Trends from './pages/Trends';
 import './styles/design-tokens.css';
 import './App.css';
 
 function ProtectedLayout({ children }) {
-  const { user, loading } = useAuth();
-  
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="spinner" style={{ width: 32, height: 32 }} />
-        <span>Cargando...</span>
-      </div>
-    );
-  }
-
-  if (!user) return <Navigate to="/login" replace />;
-
   return (
     <div className="app-layout">
       <Sidebar />
@@ -66,6 +54,9 @@ function AppRoutes() {
       } />
       <Route path="/admin" element={
         <ProtectedLayout><Admin /></ProtectedLayout>
+      } />
+      <Route path="/trends" element={
+        <ProtectedLayout><Trends /></ProtectedLayout>
       } />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

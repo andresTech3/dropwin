@@ -25,6 +25,7 @@ export const productsApi = {
   update: (id, data) => api.patch(`/products/${id}`, data),
   delete: (id) => api.delete(`/products/${id}`),
   scan: (count = 10) => api.post('/products/scan', { count }),
+  getTrends: (count = 4) => api.get('/products/trends', { params: { count } }),
 };
 
 // AI API
