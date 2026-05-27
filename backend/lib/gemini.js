@@ -54,14 +54,70 @@ async function callWithRetry(modelInstance, prompt, retries = 4, initialDelay = 
   }
 }
 
+async function callOpenRouterFallback(prompt, isJson = false) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    throw new Error('OpenRouter API key not configured for fallback.');
+  }
+
+  // Use a fast/cheap fallback model on OpenRouter, like Google's Gemini Flash, Claude Haiku, or a reliable Llama
+  const model = 'google/gemini-2.5-flash'; 
+
+  const systemMessage = isJson 
+    ? 'You are a helpful assistant. Always output valid JSON only. Do not include markdown formatting if possible.'
+    : 'You are a helpful assistant.';
+
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://dropwin.vercel.app', 
+      'X-Title': 'DropWin'
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        { role: 'system', content: systemMessage },
+        { role: 'user', content: prompt }
+      ],
+    })
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenRouter fallback error: ${response.status} ${errorText}`);
+  }
+
+  const data = await response.json();
+  let content = data.choices[0].message.content;
+  
+  // Clean markdown JSON formatting if necessary
+  if (isJson) {
+    content = content.trim();
+    if (content.startsWith('```json')) {
+      content = content.replace(/^```json/, '').replace(/```$/, '').trim();
+    } else if (content.startsWith('```')) {
+      content = content.replace(/^```/, '').replace(/```$/, '').trim();
+    }
+  }
+  
+  return content;
+}
+
 export async function generateContent(prompt) {
   try {
     const result = await callWithRetry(geminiModel, prompt);
     const response = await result.response;
     return response.text();
   } catch (error) {
-    console.error('Gemini API error:', error);
-    throw new Error('Error generating content with AI: ' + error.message);
+    console.error('Gemini API error, attempting OpenRouter fallback...', error.message);
+    try {
+      return await callOpenRouterFallback(prompt, false);
+    } catch (fallbackError) {
+      console.error('OpenRouter fallback also failed:', fallbackError.message);
+      throw new Error('Error generating content with AI (both Gemini and fallback failed): ' + error.message);
+    }
   }
 }
 
@@ -95,14 +151,19 @@ function sanitizeJsonString(str) {
 export async function generateJSON(prompt) {
   let text = '';
   try {
-    const result = await callWithRetry(geminiModelJson, prompt);
-    const response = await result.response;
-    text = response.text().trim();
+    try {
+      const result = await callWithRetry(geminiModelJson, prompt);
+      const response = await result.response;
+      text = response.text().trim();
+    } catch (geminiError) {
+      console.error('Gemini JSON error, attempting OpenRouter fallback...', geminiError.message);
+      text = await callOpenRouterFallback(prompt, true);
+    }
     
     const sanitizedText = sanitizeJsonString(text);
     return JSON.parse(sanitizedText);
   } catch (error) {
-    console.error('Gemini JSON generation error:', error);
+    console.error('JSON generation error:', error);
     console.error('Raw response text was:', text);
     throw new Error('Error generating JSON with AI: ' + error.message + ' | Raw text: ' + text.substring(0, 200) + '...');
   }

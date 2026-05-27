@@ -207,6 +207,7 @@ Return a JSON array with EXACTLY this structure for each product:
     "platforms": ["tiktok", "shopify", "amazon"],
     "supplier_name": "AliExpress",
     "is_featured": false,
+    "image_url": "https://image.pollinations.ai/prompt/product%20photography%20of%20portable%20LED%20light%20ring%20for%20laptop%20white%20background",
     "ai_score": 9.2,
     "ai_score_breakdown": {
       "profitMargin": 9.0,
@@ -222,6 +223,7 @@ Return a JSON array with EXACTLY this structure for each product:
 ]
 
 IMPORTANT: Do not use unescaped double quotes (") inside any string properties. If you need to use quotes inside a string, use single quotes (') instead.
+For the "image_url" field, ALWAYS generate a URL in the format: https://image.pollinations.ai/prompt/[detailed_product_description_in_english_with_white_background] (make sure to URL encode spaces as %20).
 Generate exactly ${count} unique, specific products with real market data estimates.`;
 
     const products = await generateJSON(prompt);
