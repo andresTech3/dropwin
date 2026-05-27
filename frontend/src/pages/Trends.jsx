@@ -132,15 +132,24 @@ export default function Trends() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: idx * 0.1 }}
                 >
-                  {/* Category & Badge */}
-                  <div className="trend-card-header mb-3">
-                    <span className="badge badge-neutral">{product.category}</span>
-                    <span className={`badge ${
-                      product.ai_score_risk === 'low' ? 'badge-success' : 
-                      product.ai_score_risk === 'medium' ? 'badge-warning' : 'badge-danger'
-                    }`}>
-                      Riesgo: {product.ai_score_risk === 'low' ? 'Bajo' : product.ai_score_risk === 'medium' ? 'Medio' : 'Alto'}
-                    </span>
+                  {/* Image, Category & Badge */}
+                  <div className="trend-card-header mb-3" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div style={{ width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', background: 'var(--color-surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {product.image_url ? (
+                        <img src={product.image_url} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <Package size={32} style={{ color: 'var(--color-ink-subtle)' }} />
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="badge badge-neutral">{product.category}</span>
+                      <span className={`badge ${
+                        product.ai_score_risk === 'low' ? 'badge-success' : 
+                        product.ai_score_risk === 'medium' ? 'badge-warning' : 'badge-danger'
+                      }`}>
+                        Riesgo: {product.ai_score_risk === 'low' ? 'Bajo' : product.ai_score_risk === 'medium' ? 'Medio' : 'Alto'}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Title & Emojis */}
