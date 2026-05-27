@@ -114,11 +114,17 @@ export default function ProductDetail() {
 
       {/* Header */}
       <div className="detail-header mb-6">
-        <div className="flex gap-4 items-start">
-          <div className="detail-product-icon">
-            <Package size={28} />
+        <div className="flex gap-6 items-start">
+          <div className="detail-product-image-container">
+            {product.image_url ? (
+              <img src={product.image_url} alt={product.name} className="detail-product-image" />
+            ) : (
+              <div className="detail-product-image-placeholder">
+                <Package size={48} />
+              </div>
+            )}
           </div>
-          <div>
+          <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               {product.is_featured && <span className="badge badge-primary">⭐ Featured</span>}
               <span className="badge badge-neutral">{product.category}</span>

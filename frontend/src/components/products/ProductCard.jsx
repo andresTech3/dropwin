@@ -66,8 +66,14 @@ export default function ProductCard({ product }) {
 
       {/* Header */}
       <div className="product-header">
-        <div className="product-category-icon">
-          <Package size={20} />
+        <div className="product-image-container">
+          {product.image_url ? (
+            <img src={product.image_url} alt={product.name} className="product-card-img" />
+          ) : (
+            <div className="product-image-placeholder">
+              <Package size={24} />
+            </div>
+          )}
         </div>
         <ScoreRing score={product.ai_score} />
       </div>
