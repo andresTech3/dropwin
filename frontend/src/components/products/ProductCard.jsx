@@ -140,13 +140,41 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Footer */}
-      <div className="product-footer">
-        <div className="product-platforms">
-          {(product.platforms || []).slice(0, 4).map(p => (
-            <span key={p} title={p} className="platform-icon">{platformIcons[p] || '🌐'}</span>
-          ))}
+      <div className="product-footer" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="product-platforms">
+            {(product.platforms || []).slice(0, 4).map(p => (
+              <span key={p} title={p} className="platform-icon">{platformIcons[p] || '🌐'}</span>
+            ))}
+          </div>
+          <span className={`badge ${competition.class}`}>{competition.label} comp.</span>
         </div>
-        <span className={`badge ${competition.class}`}>{competition.label} comp.</span>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {product.supplier_link && (
+            <a 
+              href={product.supplier_link} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="btn btn-ghost btn-sm" 
+              style={{ flex: 1, padding: '4px', fontSize: '10px' }}
+              onClick={e => e.stopPropagation()}
+            >
+              🛒 Proveedor
+            </a>
+          )}
+          {product.video_reference_link && (
+            <a 
+              href={product.video_reference_link} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="btn btn-ghost btn-sm" 
+              style={{ flex: 1, padding: '4px', fontSize: '10px' }}
+              onClick={e => e.stopPropagation()}
+            >
+              📱 Viral
+            </a>
+          )}
+        </div>
       </div>
 
       {/* Hover overlay */}

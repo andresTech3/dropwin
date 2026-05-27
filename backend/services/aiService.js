@@ -195,10 +195,10 @@ Each product MUST:
 Return a JSON array with EXACTLY this structure for each product:
 [
   {
-    "name": "Portable LED Light Ring for Remote Work",
-    "category": "Tech & Office",
-    "description": "Clip-on ring light for laptop screens, perfect for video calls and content creation",
-    "problem_solved": "Poor lighting during video calls makes professionals look unprofessional",
+    "name": "Anillo de luz LED portátil para teletrabajo",
+    "category": "Tecnología y Oficina",
+    "description": "Anillo de luz con clip para pantallas de portátiles, perfecto para videollamadas y creación de contenido",
+    "problem_solved": "La mala iluminación durante las videollamadas te hace ver poco profesional",
     "buy_price": 8.50,
     "sell_price": 34.99,
     "profit_margin": 75.7,
@@ -206,6 +206,8 @@ Return a JSON array with EXACTLY this structure for each product:
     "trend_growth_percent": 145,
     "platforms": ["tiktok", "shopify", "amazon"],
     "supplier_name": "AliExpress",
+    "supplier_link": "https://es.aliexpress.com/w/wholesale-clip-ring-light.html",
+    "video_reference_link": "https://www.tiktok.com/tag/ringlight",
     "is_featured": false,
     "image_url": "https://image.pollinations.ai/prompt/product%20photography%20of%20portable%20LED%20light%20ring%20for%20laptop%20white%20background",
     "ai_score": 9.2,
@@ -216,14 +218,18 @@ Return a JSON array with EXACTLY this structure for each product:
       "problemFit": 9.5,
       "logistics": 9.0
     },
-    "ai_score_reasoning": "This product has high demand due to remote work trends and offers an excellent profit margin.",
-    "ai_score_recommendation": "Bundle it with a mini tripod to increase average order value.",
+    "ai_score_reasoning": "Este producto tiene gran demanda por la tendencia del teletrabajo y ofrece un margen de beneficio excelente.",
+    "ai_score_recommendation": "Véndelo en un combo con un mini trípode para aumentar el valor medio del pedido.",
     "ai_score_risk": "low"
   }
 ]
 
-IMPORTANT: Do not use unescaped double quotes (") inside any string properties. If you need to use quotes inside a string, use single quotes (') instead.
-For the "image_url" field, ALWAYS generate a URL in the format: https://image.pollinations.ai/prompt/[detailed_product_description_in_english_with_white_background] (make sure to URL encode spaces as %20).
+IMPORTANT INSTRUCTIONS:
+1. ALL text values (name, description, problem_solved, ai_score_reasoning, ai_score_recommendation) MUST be in SPANISH.
+2. For "image_url", ALWAYS generate a URL in the format: https://image.pollinations.ai/prompt/[detailed_product_description_in_english_with_white_background] (make sure to URL encode spaces as %20).
+3. For "supplier_link", generate a realistic search link on AliExpress or Amazon based on the product keywords.
+4. For "video_reference_link", generate a realistic search link on TikTok (e.g. https://www.tiktok.com/search?q=[keywords]) or Instagram.
+5. Do not use unescaped double quotes (") inside any string properties. Use single quotes (') instead if needed.
 Generate exactly ${count} unique, specific products with real market data estimates.`;
 
     const products = await generateJSON(prompt);

@@ -282,27 +282,33 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Supplier */}
+          {/* Supplier & References */}
           <div className="card">
-            <h2 className="text-card-title mb-4">📦 Proveedor y Enlaces</h2>
-            <div className="supplier-info">
-              <span className="supplier-name">Proveedor recomendado: <strong>{product.supplier_name || 'AliExpress'}</strong></span>
-              <a 
-                href={product.aliexpress_url || `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(product.name)}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btn btn-secondary btn-sm"
-              >
-                <ExternalLink size={12} /> Ver en AliExpress
-              </a>
-              <a 
-                href={product.cj_dropshipping_url || `https://cjdropshipping.com/list/product-list.html?search=${encodeURIComponent(product.name)}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btn btn-secondary btn-sm"
-              >
-                <ExternalLink size={12} /> Ver en CJ Dropshipping
-              </a>
+            <h2 className="text-card-title mb-4">📦 Proveedor y Referencias</h2>
+            <div className="supplier-info flex flex-col gap-3">
+              <div>
+                <span className="supplier-name">Proveedor recomendado: <strong>{product.supplier_name || 'AliExpress'}</strong></span>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                <a 
+                  href={product.supplier_link || `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(product.name)}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-secondary btn-sm flex-1"
+                >
+                  <ExternalLink size={12} /> Ver Proveedor (AliExpress/Amazon)
+                </a>
+              </div>
+              <div className="flex gap-2 flex-wrap mt-2">
+                <a 
+                  href={product.video_reference_link || `https://www.tiktok.com/search?q=${encodeURIComponent(product.name)}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-primary btn-sm flex-1"
+                >
+                  <ExternalLink size={12} /> Ver Video Viral (TikTok/Instagram)
+                </a>
+              </div>
             </div>
           </div>
 

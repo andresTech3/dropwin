@@ -58,6 +58,9 @@ export default function Trends() {
         trend_growth_percent: product.trend_growth_percent,
         platforms: product.platforms,
         supplier_name: product.supplier_name,
+        supplier_link: product.supplier_link,
+        video_reference_link: product.video_reference_link,
+        image_url: product.image_url,
         is_featured: product.is_featured || false,
         ai_score: product.ai_score || 7.5,
         ai_competition_analysis: JSON.stringify({
@@ -211,6 +214,18 @@ export default function Trends() {
                           {platformIcons[p] || '🌐'}
                         </span>
                       ))}
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                      {product.supplier_link && (
+                        <a href={product.supplier_link} target="_blank" rel="noreferrer" className="btn btn-ghost btn-sm" style={{ padding: '4px 8px', fontSize: '11px', flex: 1 }}>
+                          🛒 Proveedor
+                        </a>
+                      )}
+                      {product.video_reference_link && (
+                        <a href={product.video_reference_link} target="_blank" rel="noreferrer" className="btn btn-ghost btn-sm" style={{ padding: '4px 8px', fontSize: '11px', flex: 1 }}>
+                          📱 Ver Viral
+                        </a>
+                      )}
                     </div>
                     <button
                       className={`btn btn-sm ${isImported ? 'btn-secondary' : 'btn-primary'}`}
