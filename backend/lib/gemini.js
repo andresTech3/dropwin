@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-export const geminiModel = genAI.getGenerativeModel({ 
+export const geminiModel = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
   generationConfig: {
     temperature: 0.7,
@@ -11,7 +11,7 @@ export const geminiModel = genAI.getGenerativeModel({
   }
 });
 
-export const geminiModelPro = genAI.getGenerativeModel({ 
+export const geminiModelPro = genAI.getGenerativeModel({
   model: 'gemini-2.5-pro',
   generationConfig: {
     temperature: 0.3,
